@@ -18,7 +18,7 @@ interface Column {
 }
 
 type Props = {
-  data: ApiResponse["Kpis"];
+  data: Kpis[];
 };
 
 export default function HomeScreen(props: Props) {

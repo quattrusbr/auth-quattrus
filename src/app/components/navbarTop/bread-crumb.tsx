@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 
 export function BreadCrumb() {
   const pathName = usePathname();
-  console.log("asdas", pathName);
   return (
     <div className="text-lg flex items-center">
       <KeyboardArrowLeftIcon className="text-aquamarine" />
