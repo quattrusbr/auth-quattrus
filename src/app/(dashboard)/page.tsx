@@ -31,33 +31,7 @@ async function getData() {
 }
 
 export default async function Home() {
-  const data: ApiResponse = (await getData()) || {
-    message: "Successful operation.",
-    success: true,
-    Plan: [
-      {
-        id_plan: 256714,
-        plan_name: "Plano 01",
-        id_kpi: 1315043,
-        from: "2021-03-05",
-        to: "2021-08-27",
-      },
-      {
-        id_plan: 324234,
-        plan_name: "Plano 02",
-        id_kpi: 1315043,
-        from: "2021-04-05",
-        to: "2021-08-21",
-      },
-      {
-        id_plan: 365345,
-        plan_name: "Plano 03",
-        id_kpi: 1315043,
-        from: "2021-08-05",
-        to: "2021-08-22",
-      },
-    ],
-  };
+  const data: ApiResponse = await getData();
   const cookie = cookies().get("auth");
 
   if (!cookie) return notFound();
