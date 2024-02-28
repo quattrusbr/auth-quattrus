@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import Link from "next/link";
 import { NavBarSide } from "../components/navbar/navbar-side";
 import TopBar from "../components/navbarTop/navBarTop";
 import { BreadCrumb } from "../components/navbarTop/bread-crumb";
+import { HeaderText } from "./header-text";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -24,12 +24,7 @@ export default function DashboardLayout({
             {/* breadcrumb */}
             <BreadCrumb />
             {/* text */}
-            <div className="flex gap-1 mt-7">
-              <span>
-                <CalendarMonthIcon className="text-aquamarine" />
-              </span>
-              <h1 className="text-lg font-light text-steelGray">Cronograma</h1>
-            </div>
+            <HeaderText />
             <hr className="bg-mercuryGray h-[1px] my-2 opacity-30" />
             <p>
               Aqui você pode acompanhar os resultados dos seus projetos.

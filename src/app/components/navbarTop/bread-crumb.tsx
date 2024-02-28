@@ -10,7 +10,9 @@ export function BreadCrumb() {
       <KeyboardArrowLeftIcon className="text-aquamarine" />
       <span className="text-aquamarine mr-1">Dashboard</span> |
       <span className="ml-2">
-        {pathName === "/projetos" ? "Projetos" : "Cronograma"}
+        {pathName === "/projetos" ? "Projetos" : ""}
+        {pathName === "/" ? "Cronograma" : ""}
+        {pathName === "/tasks" ? "Tasks" : ""}
       </span>
     </div>
   );
