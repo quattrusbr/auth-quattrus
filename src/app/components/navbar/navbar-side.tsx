@@ -123,7 +123,7 @@ export function NavBarSide({ children }: { children: React.ReactNode }) {
           <List>
             {[
               { url: "/projetos", text: "Projetos" },
-              { url: "/", text: "Starred" },
+              { url: "/tasks", text: "Tarefas" },
               { url: "/", text: "Send email" },
               { url: "/", text: "Drafts" },
             ].map((el, index) => (
