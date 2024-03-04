@@ -25,16 +25,6 @@ export default function DashboardLayout({
             <BreadCrumb />
             {/* text */}
             <HeaderText />
-            <hr className="bg-mercuryGray h-[1px] my-2 opacity-30" />
-            <p>
-              Aqui você pode acompanhar os resultados dos seus projetos.
-              <Link
-                className="text-aquamarine font-bold ml-1"
-                href="/saiba-mais"
-              >
-                Saiba mais
-              </Link>
-            </p>
           </div>
           {children}
         </section>

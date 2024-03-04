@@ -15,6 +15,8 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDay, faHouse, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 
 const drawerWidth = 240;
 
@@ -87,8 +89,24 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+
 export function NavBarSide({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
+
+  const getIconForText = (text: string) => {
+    switch (text) {
+      case 'Projetos':
+        return <FontAwesomeIcon icon={faHouse} />;
+      case 'Tarefas':
+        return <FontAwesomeIcon icon={faLayerGroup} />; 
+      case 'Send email':
+        return <FontAwesomeIcon icon={faCalendarDay} />; 
+      case 'Drafts':
+        return <FontAwesomeIcon icon={faCalendarDay} />; 
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -123,7 +141,7 @@ export function NavBarSide({ children }: { children: React.ReactNode }) {
           <List>
             {[
               { url: "/projetos", text: "Projetos" },
-              { url: "/tasks", text: "Tarefas" },
+              { url: "/tarefas", text: "Tarefas" },
               { url: "/", text: "Send email" },
               { url: "/", text: "Drafts" },
             ].map((el, index) => (
@@ -145,7 +163,7 @@ export function NavBarSide({ children }: { children: React.ReactNode }) {
                         color: "white",
                       }}
                     >
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      {getIconForText(el.text)}
                     </ListItemIcon>
                     <ListItemText
                       primary={el.text}
@@ -153,35 +171,6 @@ export function NavBarSide({ children }: { children: React.ReactNode }) {
                     />
                   </ListItemButton>
                 </Link>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                      color: "white",
-                    }}
-                  >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={text}
-                    sx={{ opacity: open ? 1 : 0, color: "white" }}
-                  />
-                </ListItemButton>
               </ListItem>
             ))}
           </List>
