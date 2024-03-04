@@ -1,7 +1,6 @@
-import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AddTasks } from "./add-tasks";
 
-function getData() {
+function getTasksData() {
   // const username = "d2afa6bcce854688e9067cc7c94f8acfb95a3df3";
   // const password = "";
   // const data = await fetch(
@@ -23,21 +22,11 @@ function getData() {
 }
 
 export default async function Tarefas() {
-  const data = getData();
+  const tasks = getTasksData();
+
   return (
     <div>
-      {JSON.stringify(data)}
-      <div className="bg-[#F5F5F5] px-3 py-2 flex justify-between">
-        <h1 className="font-medium">Tarefas adicionadas | 1</h1>
-        <div>
-          <button>
-            <FontAwesomeIcon icon={faFilter} />
-          </button>
-          <button className="ml-4">
-            <FontAwesomeIcon icon={faPlus} />
-          </button>
-        </div>
-      </div>
+      <AddTasks tasks={tasks}></AddTasks>
     </div>
   );
 }
