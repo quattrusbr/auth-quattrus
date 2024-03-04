@@ -1,4 +1,6 @@
-function getData() {
+import { AddTasks } from "./add-tasks";
+
+function getTasksData() {
   // const username = "d2afa6bcce854688e9067cc7c94f8acfb95a3df3";
   // const password = "";
   // const data = await fetch(
@@ -19,14 +21,12 @@ function getData() {
   return [];
 }
 
-export default async function Tasks() {
-  const data = getData();
+export default async function Tarefas() {
+  const tasks = getTasksData();
+
   return (
     <div>
-      {JSON.stringify(data)}
-      <div className="bg-[#F5F5F5] px-3 py-4">
-        <h1 className="font-medium">Tarefas adicionadas | 1</h1>
-      </div>
+      <AddTasks tasks={tasks}></AddTasks>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import HomeScreen from "./page.client";
 import { ApiResponse } from "@/types/types";
+import Link from "next/link";
 
 function getData() {
   return [
@@ -1395,8 +1396,11 @@ export default async function Home() {
   user = token.payload;
 
   return (
-    <main className="overflow-x-hidden">
-      <HomeScreen data={data} />
-    </main>
+    <>
+      
+      <main className="overflow-x-hidden">
+        <HomeScreen data={data} />
+      </main>
+    </>
   );
 }

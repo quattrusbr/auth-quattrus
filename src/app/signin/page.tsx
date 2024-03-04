@@ -2,10 +2,9 @@
 import { Typography, FormControl, TextField, Box, Link } from "@mui/material";
 import logoSimplify from "./../../../public/assets/logoSimplify.svg";
 import logoQuattrus from "./../../../public/assets/logoQuattrusGreen.svg";
-import { useSignIn } from "./hooks/useSignIn";
+import { useSignIn } from "../../hooks/useSignIn";
 import { Button } from "../components/button";
 import styles from "./styles.module.css";
-import { useEffect } from "react";
 
 export default function SignIn() {
   const { register, handleSubmit, errors, loading, onSubmit } = useSignIn();
