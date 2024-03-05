@@ -19,7 +19,7 @@ type ProjectData = {
 };
 
 type Props = {
-  data: ProjectData[];
+  data: any[];
 };
 
 export function ProjetosScreen({ data }: Props) {
