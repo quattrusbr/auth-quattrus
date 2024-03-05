@@ -1,5 +1,4 @@
 "use client";
-
 import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,6 +7,8 @@ import {
   Drawer,
   FormControl,
   IconButton,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -20,27 +21,53 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+// Definindo um tipo para os itens de dados
+type TasksData = {
+  prioridade_task?: string;
+  oque_task: string;
+  porque_task: string;
+  como_task: string;
+  quem_task: string;
+  data_inicial?: string;
+  data_final?: string;
+  valor_task?: string;
+};
+
 import { Task } from "@/types/types";
-import { deleteTaskAction } from "./delete-task-action";
 import { Button } from "@/app/components/button";
 import { DeleteButtonRow } from "./delete-button-row";
 const names = [
-  {
-    value: "Carol",
-  },
-  {
-    value: "Ismael",
-  },
-  {
-    value: "Mano",
-  },
-  {
-    value: "Yan",
-  },
+  { value: "Carol" },
+  { value: "Ismael" },
+  { value: "Mano" },
+  { value: "Yan" },
 ];
 
 export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  interface IFormInputs {
+    prioridade_task?: string;
+    oque_task: string;
+    porque_task: string;
+    como_task: string;
+    quem_task: string;
+    data_inicial?: string;
+    data_final?: string;
+    valor_task?: string;
+  }
+
+  const { handleSubmit, control, reset, register } = useForm<IFormInputs>({
+    defaultValues: {
+      oque_task: "",
+      porque_task: "",
+      como_task: "",
+      quem_task: "",
+    },
+  });
+  const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data);
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -79,6 +106,7 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
               <TableCell align="right">O que</TableCell>
               <TableCell align="right">Por quê?</TableCell>
               <TableCell align="right">Como/Onde</TableCell>
+              <TableCell align="right">Quem</TableCell>
               <TableCell align="right">Data inicial</TableCell>
               <TableCell align="right">Data Final</TableCell>
               <TableCell align="right">Valor</TableCell>
@@ -137,90 +165,94 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
           </Typography>
         </Toolbar>
         <Divider variant="middle" sx={{ mx: "40px" }} />
+        {/* <form onSubmit={handleSubmit(onSubmit)}> */}
 
         <Box sx={{ width: 550 }}>
-          <form className="mx-[40px] mt-5">
+          <form className="mx-[40px] mt-5" onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth sx={{ marginBottom: 2 }}>
-              <label id="prioridade">Prioridade</label>
+              <label id="prioridade_task">Prioridade</label>
               <TextField
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="prioridade"
+                id="prioridade_task"
                 variant="filled"
                 type="number"
+                {...register("prioridade_task")}
               />
             </FormControl>
             <FormControl fullWidth sx={{ marginBottom: 2 }}>
-              <label id="oque">O que</label>
+              <label id="oque_task">O que</label>
               <TextField
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="oque"
+                id="oque_task"
                 variant="filled"
-                multiline={true}
+                multiline
+                {...register("oque_task")}
               />
             </FormControl>
             <FormControl fullWidth sx={{ marginBottom: 2 }}>
-              <label id="porque">Por quê?</label>
+              <label id="porque_task">Por quê?</label>
               <TextField
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="porque"
+                id="porque_task"
                 variant="filled"
-                multiline={true}
+                multiline
+                {...register("porque_task")}
               />
-              <label id="como">Como/Onde</label>
+              <label id="como_task">Como/Onde</label>
               <TextField
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="como"
+                id="como_task"
                 variant="filled"
-                multiline={true}
+                multiline
+                {...register("como_task")}
               />
-              <label id="Quem">Quem</label>
-              <TextField
+              <label id="quem_task">Quem</label>
+              <Select
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="quem"
-                select
+                id="quem_task"
                 variant="filled"
+                {...register("quem_task")}
               >
                 {names.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <MenuItem key={option.value} value={option.value}>
                     {option.value}
-                  </option>
+                  </MenuItem>
                 ))}
-              </TextField>
+              </Select>
             </FormControl>
-            <button
+            <Button
               className="bg-mercuryGray px-3 py-2 rounded-lg"
-              type="submit"
+              type="button"
               onClick={toggleDrawer}
             >
               Cancelar
-            </button>
-            <button
+            </Button>
+            <Button
               className="bg-primaryMain px-3 py-2 rounded-lg"
               type="submit"
-              onClick={toggleDrawer}
             >
               Salvar
-            </button>
+            </Button>
           </form>
         </Box>
       </Drawer>

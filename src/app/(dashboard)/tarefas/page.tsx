@@ -18,10 +18,9 @@ async function getTasksData() {
   return json;
 }
 
+
 export default async function Tarefas() {
   const tasks = await getTasksData();
-
-  console.log("tasksss", tasks.d.data);
 
   return (
     <div>
