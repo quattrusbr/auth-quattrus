@@ -1,6 +1,11 @@
 "use client";
 import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import dayjs from "dayjs";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import {} from "@mui/x-date-pickers/DatePicker";
 import {
   Box,
   Divider,
@@ -21,7 +26,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 // Definindo um tipo para os itens de dados
 type TasksData = {
@@ -38,6 +43,8 @@ type TasksData = {
 import { Task } from "@/types/types";
 import { Button } from "@/app/components/button";
 import { DeleteButtonRow } from "./delete-button-row";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 const names = [
   { value: "Carol" },
   { value: "Ismael" },
@@ -67,7 +74,10 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
       quem_task: "",
     },
   });
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+    console.log(data);
+    console.log(dayjs(data.data_inicial).format("DD/MM/YYYY")); //formatar datas dessa forma para enviar para o backend
+  };
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -165,10 +175,11 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
           </Typography>
         </Toolbar>
         <Divider variant="middle" sx={{ mx: "40px" }} />
-        {/* <form onSubmit={handleSubmit(onSubmit)}> */}
-
         <Box sx={{ width: 550 }}>
-          <form className="mx-[40px] mt-5" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className="mx-[40px] mt-5 flex flex-col gap-4"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <FormControl fullWidth sx={{ marginBottom: 2 }}>
               <label id="prioridade_task">Prioridade</label>
               <TextField
@@ -183,6 +194,39 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
                 {...register("prioridade_task")}
               />
             </FormControl>
+
+            <Controller
+              control={control}
+              name="data_inicial"
+              render={({ field }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    value={field.value}
+                    onChange={(value) => {
+                      field.onChange(value);
+                    }}
+                    format="YYYY-MM-DD"
+                    label={"data inicial"}
+                  />
+                </LocalizationProvider>
+              )}
+            />
+            <Controller
+              control={control}
+              name="data_final"
+              render={({ field }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    value={field.value}
+                    onChange={(value) => {
+                      field.onChange(value);
+                    }}
+                    format="YYYY-MM-DD"
+                    label={"data final"}
+                  />
+                </LocalizationProvider>
+              )}
+            />
             <FormControl fullWidth sx={{ marginBottom: 2 }}>
               <label id="oque_task">O que</label>
               <TextField
@@ -240,19 +284,21 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
                 ))}
               </Select>
             </FormControl>
-            <Button
-              className="bg-mercuryGray px-3 py-2 rounded-lg"
-              type="button"
-              onClick={toggleDrawer}
-            >
-              Cancelar
-            </Button>
-            <Button
-              className="bg-primaryMain px-3 py-2 rounded-lg"
-              type="submit"
-            >
-              Salvar
-            </Button>
+            <div className="flex">
+              <Button
+                className="bg-mercuryGray px-3 py-2 rounded-lg"
+                type="button"
+                onClick={toggleDrawer}
+              >
+                Cancelar
+              </Button>
+              <Button
+                className="bg-primaryMain px-3 py-2 rounded-lg"
+                type="submit"
+              >
+                Salvar
+              </Button>
+            </div>
           </form>
         </Box>
       </Drawer>
