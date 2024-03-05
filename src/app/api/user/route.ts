@@ -29,8 +29,6 @@ export async function POST(req: Request) {
       );
     }
 
-    console.log("As senhas correspondem.");
-
     const { password, ...userWithoutPassword } = user;
 
     const token = await new jose.SignJWT(userWithoutPassword)
