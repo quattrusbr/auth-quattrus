@@ -3,18 +3,11 @@
 import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  AppBar,
   Box,
-  Button,
   Divider,
   Drawer,
   FormControl,
   IconButton,
-  InputLabel,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -27,23 +20,10 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
-
-// Definindo um tipo para os itens de dados
-type tasksData = {
-  id_task: number;
-  nome_task: string;
-  porque_task: string;
-  como_task: string;
-  data_inicial: string;
-  data_final: string;
-  valor_task: number;
-  status: boolean;
-};
-
-type Tasks = {
-  tasks: tasksData[];
-};
-
+import { Task } from "@/types/types";
+import { deleteTaskAction } from "./delete-task-action";
+import { Button } from "@/app/components/button";
+import { DeleteButtonRow } from "./delete-button-row";
 const names = [
   {
     value: "Carol",
@@ -59,12 +39,24 @@ const names = [
   },
 ];
 
-export const AddTasks = ({ tasks }: Tasks) => {
+export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
   };
+
+  function dataAteFormatada(data: string) {
+    const dataAte = new Date(data);
+
+    return dataAte.toLocaleString();
+  }
+
+  function dataDeFormatada(data: string) {
+    const dataDe = new Date(data);
+
+    return dataDe.toLocaleDateString();
+  }
 
   return (
     <>
@@ -83,33 +75,36 @@ export const AddTasks = ({ tasks }: Tasks) => {
         <Table sx={{ minWidth: 650 }} aria-label="tabela de projetos paginada">
           <TableHead>
             <TableRow>
-              <TableCell>PR</TableCell>
-              <TableCell>O que</TableCell>
+              <TableCell align="right">PR</TableCell>
+              <TableCell align="right">O que</TableCell>
               <TableCell align="right">Por quê?</TableCell>
               <TableCell align="right">Como/Onde</TableCell>
               <TableCell align="right">Data inicial</TableCell>
               <TableCell align="right">Data Final</TableCell>
               <TableCell align="right">Valor</TableCell>
               <TableCell align="right">Status</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks.map((row) => (
+            {tasks.map((row: Task) => (
               <TableRow
-                key={row.id_task}
+                key={row.idTarefa}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.nome_task}
+                <TableCell align="right">{row.prioridade}</TableCell>
+                <TableCell align="right">{row.oque}</TableCell>
+                <TableCell align="right">{row.porque}</TableCell>
+                <TableCell align="right">{row.comoOnde}</TableCell>
+                <TableCell align="right">
+                  {dataDeFormatada(row.dt_de)}
                 </TableCell>
-                <TableCell align="right">{row.id_task}</TableCell>
-                <TableCell align="right">{row.nome_task}</TableCell>
-                <TableCell align="right">{row.porque_task}</TableCell>
-                <TableCell align="right">{row.como_task}</TableCell>
-                <TableCell align="right">{row.data_inicial}</TableCell>
-                <TableCell align="right">{row.data_final}</TableCell>
-                <TableCell align="right">{row.valor_task}</TableCell>
+                <TableCell align="right">
+                  {dataAteFormatada(row.dt_ate)}
+                </TableCell>
+                <TableCell align="right">{row.valor}</TableCell>
                 <TableCell align="right">{row.status}</TableCell>
+                <DeleteButtonRow row={row} />
               </TableRow>
             ))}
           </TableBody>
