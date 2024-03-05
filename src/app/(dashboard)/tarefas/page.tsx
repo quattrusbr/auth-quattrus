@@ -21,12 +21,14 @@ function getTasksData() {
   return [];
 }
 
+
 export default async function Tarefas() {
-  const tasks = getTasksData();
+  const getData = getTasksData();
+
 
   return (
     <div>
-      <AddTasks tasks={tasks}></AddTasks>
+      <AddTasks tasks={getData}></AddTasks>
     </div>
   );
 }

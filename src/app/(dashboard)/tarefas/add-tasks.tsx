@@ -14,7 +14,10 @@ import {
   List,
   ListItem,
   ListItemText,
+  MenuItem,
   Paper,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -27,43 +30,50 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 // Definindo um tipo para os itens de dados
-type tasksData = {
+type TasksData = {
   id_task: number;
-  nome_task: string;
+  prioridade_task: string;
+  oque_task: string;
   porque_task: string;
   como_task: string;
+  quem_task: string;
   data_inicial: string;
   data_final: string;
-  valor_task: number;
+  valor_task: string;
   status: boolean;
 };
 
-type Tasks = {
-  tasks: tasksData[];
+type TasksProps = {
+  tasks: TasksData[];
 };
 
 const names = [
-  {
-    value: "Carol",
-  },
-  {
-    value: "Ismael",
-  },
-  {
-    value: "Mano",
-  },
-  {
-    value: "Yan",
-  },
+  { value: "Carol" },
+  { value: "Ismael" },
+  { value: "Mano" },
+  { value: "Yan" },
 ];
 
-export const AddTasks = ({ tasks }: Tasks) => {
+export const AddTasks = ({ tasks }: TasksProps) => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { register, handleSubmit, reset } = useForm();
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
+  };
+  const onSubmit = (data: TasksData) => {
+    const newTask: TasksData = {
+      ...data,
+      id_task: tasks.length + 1,
+      status: false,
+    };
+
+    const updatedTasks = [...tasks, newTask];
+    reset();
+    toggleDrawer();
   };
 
   return (
@@ -85,8 +95,10 @@ export const AddTasks = ({ tasks }: Tasks) => {
             <TableRow>
               <TableCell>PR</TableCell>
               <TableCell>O que</TableCell>
+              <TableCell align="right">Prioridade</TableCell>
               <TableCell align="right">Por quê?</TableCell>
               <TableCell align="right">Como/Onde</TableCell>
+              <TableCell align="right">Quem</TableCell>
               <TableCell align="right">Data inicial</TableCell>
               <TableCell align="right">Data Final</TableCell>
               <TableCell align="right">Valor</TableCell>
@@ -99,13 +111,12 @@ export const AddTasks = ({ tasks }: Tasks) => {
                 key={row.id_task}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.nome_task}
-                </TableCell>
                 <TableCell align="right">{row.id_task}</TableCell>
-                <TableCell align="right">{row.nome_task}</TableCell>
+                <TableCell align="right">{row.prioridade_task}</TableCell>
+                <TableCell align="right">{row.oque_task}</TableCell>
                 <TableCell align="right">{row.porque_task}</TableCell>
                 <TableCell align="right">{row.como_task}</TableCell>
+                <TableCell align="right">{row.quem_task}</TableCell>
                 <TableCell align="right">{row.data_inicial}</TableCell>
                 <TableCell align="right">{row.data_final}</TableCell>
                 <TableCell align="right">{row.valor_task}</TableCell>
@@ -144,88 +155,91 @@ export const AddTasks = ({ tasks }: Tasks) => {
         <Divider variant="middle" sx={{ mx: "40px" }} />
 
         <Box sx={{ width: 550 }}>
-          <form className="mx-[40px] mt-5">
+          <form className="mx-[40px] mt-5" onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth sx={{ marginBottom: 2 }}>
-              <label id="prioridade">Prioridade</label>
+              <label id="prioridade_task">Prioridade</label>
               <TextField
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="prioridade"
+                id="prioridade_task"
                 variant="filled"
                 type="number"
+                {...register("prioridade_task")}
               />
             </FormControl>
             <FormControl fullWidth sx={{ marginBottom: 2 }}>
-              <label id="oque">O que</label>
+              <label id="oque_task">O que</label>
               <TextField
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="oque"
+                id="oque_task"
                 variant="filled"
-                multiline={true}
+                multiline
+                {...register("oque_task")}
               />
             </FormControl>
             <FormControl fullWidth sx={{ marginBottom: 2 }}>
-              <label id="porque">Por quê?</label>
+              <label id="porque_task">Por quê?</label>
               <TextField
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="porque"
+                id="porque_task"
                 variant="filled"
-                multiline={true}
+                multiline
+                {...register("porque_task")}
               />
-              <label id="como">Como/Onde</label>
+              <label id="como_task">Como/Onde</label>
               <TextField
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="como"
+                id="como_task"
                 variant="filled"
-                multiline={true}
+                multiline
+                {...register("como_task")}
               />
-              <label id="Quem">Quem</label>
-              <TextField
+              <label id="quem_task">Quem</label>
+              <Select
                 inputProps={{
                   style: {
                     padding: 5,
                   },
                 }}
-                id="quem"
-                select
+                id="quem_task"
                 variant="filled"
+                {...register("quem_task")}
               >
                 {names.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <MenuItem key={option.value} value={option.value}>
                     {option.value}
-                  </option>
+                  </MenuItem>
                 ))}
-              </TextField>
+              </Select>
             </FormControl>
-            <button
+            <Button
               className="bg-mercuryGray px-3 py-2 rounded-lg"
-              type="submit"
+              type="button"
               onClick={toggleDrawer}
             >
               Cancelar
-            </button>
-            <button
+            </Button>
+            <Button
               className="bg-primaryMain px-3 py-2 rounded-lg"
               type="submit"
-              onClick={toggleDrawer}
             >
               Salvar
-            </button>
+            </Button>
           </form>
         </Box>
       </Drawer>
