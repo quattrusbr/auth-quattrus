@@ -28,3 +28,26 @@ export type ApiResponse = {
   success: boolean;
   Kpis: Kpis[];
 };
+
+export type Task = {
+  __type: "cadTarefas+cadastroTarefas";
+  idTarefa: number;
+  oque: string;
+  porque: string;
+  prioridade: number;
+  comoOnde: string;
+  dt_de:  string;
+  dt_ate:  string;
+  concluido: number;
+  dtConcluido: string;
+  valor: number;
+  idUsuario: number;
+  nomeUsuario: string;
+  idUsuarioQuem: number;
+  nomeUsuarioQuem: string;
+  status: "A";
+  comentario: null | string;
+  atrasado: boolean;
+  idReuniao: null | number;
+  avatar: string;
+};
