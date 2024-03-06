@@ -38,6 +38,7 @@ import { DeleteButtonRow } from "./delete-button-row";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { createTaskAction } from "./add-task-action";
 import { useOpenSnackbar } from "@/contexts/snackbar-context";
+import { usePagination } from "./../../../hooks/usePagination";
 
 const names = [{ value: 1430 }];
 
@@ -56,8 +57,8 @@ export interface IFormInputs {
 export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { notification } = useOpenSnackbar();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
+    usePagination();
 
   const { handleSubmit, control, reset, register } = useForm<IFormInputs>({
     defaultValues: {
@@ -104,20 +105,6 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
     return dataDe.toLocaleDateString();
   }
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   return (
     <>
       <div className="bg-ghostGray px-3 py-2 flex justify-between">
@@ -131,8 +118,8 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
           </button>
         </div>
       </div>
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="tabela de projetos paginada">
+      <TableContainer sx={{overflow: "hidden"}}>
+        <Table sx={{ minWidth: 650, maxHeight: 850, overflow: "auto" }} aria-label="tabela de projetos paginada">
           <TableHead>
             <TableRow>
               <TableCell align="right">PR</TableCell>
@@ -179,7 +166,8 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        labelRowsPerPage="Linhas por página:"
+        rowsPerPageOptions={[5, 10, 20]}
         component="div"
         count={tasks.length}
         rowsPerPage={rowsPerPage}
