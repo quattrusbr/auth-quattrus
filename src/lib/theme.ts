@@ -73,6 +73,44 @@ const theme = createTheme({
   shape: {
     borderRadius: 4,
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          borderRadius: "8px",
+          backgroundColor: "primary.main",
+          color: "common.white",
+          border: "2px",
+          borderColor: "grey.400",
+          padding: "7px 15px",
+          marginTop: "20px",
+          margin: "10px",
+          fontSize: "12px",
+          maxWidth: "115px",
+          "&:hover": {
+            color: "common.black",
+            borderColor: "grey.400",
+            border: "1px",
+          },
+        },
+        containedSecondary: {
+          borderRadius: "8px",
+          backgroundColor: "common.white",
+          color: "grey.400",
+          padding: "7px 15px",
+          marginTop: "20px",
+          margin: "10px",
+          fontSize: "12px",
+          maxWidth: "115px",
+          "&:hover": {
+            color: "common.black",
+            borderColor: "grey.400",
+            border: "2px",
+          },
+        },
+      },
+    },
+  },
 });
 
 export default theme;
