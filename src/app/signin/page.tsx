@@ -119,20 +119,7 @@ export default function SignIn() {
             )}
             <Button
               loading={loading}
-              sx={{
-                borderRadius: "8px",
-                backgroundColor: "primary.main",
-                color: "common.white",
-                padding: "7px 10px",
-                marginTop: "30px",
-                fontSize: "12px",
-                maxWidth: "115px",
-                "&:hover": {
-                  color: "common.black",
-                  borderColor: "grey.400",
-                  border: "1px",
-                },
-              }}
+              variant="contained"
               type="submit"
             >
               Entrar

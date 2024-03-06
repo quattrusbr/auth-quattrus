@@ -6,13 +6,17 @@ export function BreadCrumb() {
   const pathName = usePathname();
   return (
     <div className="text-lg flex items-center">
-      <KeyboardArrowLeftIcon className="text-primaryMain" />
-      <span className="text-primaryMain mr-1">Dashboard</span> |
-      <span className="ml-2">
+      <KeyboardArrowLeftIcon 
+      //@ts-ignore
+      fontSize="12px" 
+      className="text-primaryMain" />
+      <p className="text-primaryMain text-xs font-semibold">Dashboard</p>
+      <p className="ml-2 text-xs font-semibold">|</p>
+      <p className="ml-2 text-xs font-semibold">
         {pathName === "/projetos" ? "Projetos" : ""}
         {pathName === "/" ? "Cronograma" : ""}
         {pathName === "/tarefas" ? "Tarefas" : ""}
-      </span>
+      </p>
     </div>
   );
 }
