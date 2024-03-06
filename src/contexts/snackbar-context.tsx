@@ -33,6 +33,13 @@ export function SnackbarProvider({ children }: { children: React.ReactNode }) {
     setOpen(false);
   };
 
+  const severityColors = {
+    error: { main: "#FF5858", light: "#FFEFEF" },
+    info: { main: "#619DF2" },
+    success: { main: "#00BD8D", light: "#E6F9F4" },
+    warning: { main: "#E8B722", light: "#FDF8E9" },
+  };
+
   return (
     <SnackbarContext.Provider value={{ openSnackBar, setSeverity, setMessage }}>
       <Snackbar
@@ -45,7 +52,11 @@ export function SnackbarProvider({ children }: { children: React.ReactNode }) {
           onClose={handleClose}
           severity={severity}
           variant="filled"
-          sx={{ width: "100%" }}
+          sx={{
+            width: "100%",
+            backgroundColor: severityColors[severity].main,
+            color: severity === "warning" ? "black" : "white",
+          }}
         >
           {message}
         </Alert>
