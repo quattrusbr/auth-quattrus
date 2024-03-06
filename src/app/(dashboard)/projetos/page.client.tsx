@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import { usePagination } from "./../../../hooks/usePagination";
 
 // Definindo um tipo para os itens de dados
 type ProjectData = {
@@ -23,22 +24,8 @@ type Props = {
 };
 
 export function ProjetosScreen({ data }: Props) {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
+    usePagination();
 
   return (
     <>
@@ -74,7 +61,8 @@ export function ProjetosScreen({ data }: Props) {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        labelRowsPerPage="Linhas por página:"
+        rowsPerPageOptions={[5, 10, 20]}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}
