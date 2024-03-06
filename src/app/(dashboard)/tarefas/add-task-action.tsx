@@ -9,7 +9,6 @@ export async function createTaskAction(task: IFormInputs) {
     ],
   });
 
-  console.log("teste", jsonData);
   const data = await fetch(
     "http://localhost:45272/Servicos/cadTarefas.asmx/CreateTarefas?idPK=&idReuniao=&abertas=false&concluidas=false&vencidas=false",
     {
@@ -24,7 +23,6 @@ export async function createTaskAction(task: IFormInputs) {
 
   revalidateTag("validateTasks");
   const json = await data.json();
-  console.log("asdasd", json);
 
   return json;
 }

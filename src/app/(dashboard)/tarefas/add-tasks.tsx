@@ -45,8 +45,8 @@ export interface IFormInputs {
   porque: string;
   comoOnde: string;
   idUsuarioQuem: number;
-  dt_de: string;
-  dt_ate: string;
+  dt_de: string | null;
+  dt_ate: string | null;
   valor: number;
   concluido: boolean;
 }
@@ -62,8 +62,8 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
       porque: "",
       comoOnde: "",
       idUsuarioQuem: 0,
-      dt_de: "",
-      dt_ate: "",
+      dt_de: null,
+      dt_ate: null,
       valor: 0,
       concluido: false,
     },
@@ -182,7 +182,7 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
         <Divider variant="middle" sx={{ mx: "40px" }} />
         <Box sx={{ width: 550 }}>
           <form
-            className="mx-[40px] mt-5 flex flex-col gap-6"
+            className="mx-[40px] mt-5 flex flex-col"
             onSubmit={handleSubmit(onSubmit)}
           >
             <FormControl fullWidth sx={{ marginBottom: 2, display: "flex", gap: "10px" }}>
@@ -250,7 +250,6 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
                         field.onChange(value);
                       }}
                       format="YYYY-MM-DD"
-                      label={"data inicial"}
                     />
                   </LocalizationProvider>
                 )}
@@ -295,10 +294,11 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
               }
               label={"Concluído"}
             />
-            <div className="flex">
+            <div className="flex justify-center gap-4">
               <Button
                 type="button"
-                // variant="containedSecondary"
+                //@ts-ignore
+                variant="containedSecondary"
                 onClick={toggleDrawer}
               >
                 Cancelar
