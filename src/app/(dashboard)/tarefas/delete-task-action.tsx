@@ -7,7 +7,7 @@ export async function deleteTaskAction(task: Task) {
   const jsonData = JSON.stringify({
     jsonData: [task],
   });
-  await fetch(
+  const data = await fetch(
     "http://localhost:45272/Servicos/cadTarefas.asmx/DeleteTarefas?idPK=&idReuniao=&abertas=false&concluidas=false&vencidas=false",
     {
       method: "POST",
@@ -20,4 +20,6 @@ export async function deleteTaskAction(task: Task) {
   );
 
   revalidateTag("validateTasks");
+
+  return await data.json();
 }
