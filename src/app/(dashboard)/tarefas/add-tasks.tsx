@@ -154,7 +154,7 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
         </Table>
       </TableContainer>
       <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
-        <div style={{ marginLeft: "auto"}}>
+        <div style={{ marginLeft: "auto" }}>
           <IconButton
             sx={{ mr: 0 }}
             onClick={toggleDrawer}
@@ -185,7 +185,10 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
             className="mx-[40px] mt-5 flex flex-col gap-6"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <FormControl fullWidth sx={{ marginBottom: 2, display: "flex", gap: "10px" }}>
+            <FormControl
+              fullWidth
+              sx={{ marginBottom: 2, display: "flex", gap: "10px" }}
+            >
               <label id="prioridade">Prioridade</label>
               <TextField
                 id="prioridade"
@@ -195,7 +198,7 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
                 type="number"
                 {...register("prioridade")}
               />
-              
+
               <label id="oque">O que</label>
               <TextField
                 id="oque"
@@ -215,15 +218,15 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
                 multiline
                 {...register("porque")}
               />
-                <label id="comoOnde">Como/Onde</label>
-                <TextField
-                  id="comoOnde"
-                  variant="filled"
-                  size="small"
-                  hiddenLabel
-                  multiline
-                  {...register("comoOnde")}
-                />
+              <label id="comoOnde">Como/Onde</label>
+              <TextField
+                id="comoOnde"
+                variant="filled"
+                size="small"
+                hiddenLabel
+                multiline
+                {...register("comoOnde")}
+              />
 
               <label id="idUsuarioQuem">Quem</label>
               <Select
