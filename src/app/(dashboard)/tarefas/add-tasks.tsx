@@ -7,6 +7,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import {} from "@mui/x-date-pickers/DatePicker";
 import {
+  Badge,
   Box,
   Checkbox,
   Divider,
@@ -21,6 +22,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
   Toolbar,
@@ -54,6 +56,8 @@ export interface IFormInputs {
 export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { notification } = useOpenSnackbar();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const { handleSubmit, control, reset, register } = useForm<IFormInputs>({
     defaultValues: {
@@ -100,6 +104,20 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
     return dataDe.toLocaleDateString();
   }
 
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <>
       <div className="bg-ghostGray px-3 py-2 flex justify-between">
@@ -130,29 +148,45 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks.map((row: Task) => (
-              <TableRow
-                key={row.idTarefa}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="right">{row.prioridade}</TableCell>
-                <TableCell align="right">{row.oque}</TableCell>
-                <TableCell align="right">{row.porque}</TableCell>
-                <TableCell align="right">{row.comoOnde}</TableCell>
-                <TableCell align="right">
-                  {dataDeFormatada(row.dt_de)}
-                </TableCell>
-                <TableCell align="right">
-                  {dataAteFormatada(row.dt_ate)}
-                </TableCell>
-                <TableCell align="right">{row.valor}</TableCell>
-                <TableCell align="right">{row.status}</TableCell>
-                <DeleteButtonRow row={row} />
-              </TableRow>
-            ))}
+            {tasks
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row: Task) => (
+                <TableRow
+                  key={row.idTarefa}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="right">{row.prioridade}</TableCell>
+                  <TableCell align="right">{row.oque}</TableCell>
+                  <TableCell align="right">{row.porque}</TableCell>
+                  <TableCell align="right">{row.comoOnde}</TableCell>
+                  <TableCell align="right">
+                    {dataDeFormatada(row.dt_de)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {dataAteFormatada(row.dt_ate)}
+                  </TableCell>
+                  <TableCell align="right">{row.valor}</TableCell>
+                  <TableCell align="right">
+                    <Badge
+                      badgeContent={row.status}
+                      color={row.status === "A" ? "info" : "error"}
+                    />
+                  </TableCell>
+                  <DeleteButtonRow row={row} />
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={tasks.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
       <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
         <div style={{ marginLeft: "auto" }}>
           <IconButton
