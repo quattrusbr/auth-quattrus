@@ -102,7 +102,7 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
 
   return (
     <>
-      <div className="bg-mercuryGray px-3 py-2 flex justify-between">
+      <div className="bg-ghostGray px-3 py-2 flex justify-between">
         <h1 className="font-medium">Tarefas adicionadas | 1</h1>
         <div>
           <button>
@@ -154,7 +154,7 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
         </Table>
       </TableContainer>
       <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
-        <div style={{ marginLeft: "auto" }}>
+        <div style={{ marginLeft: "auto"}}>
           <IconButton
             sx={{ mr: 0 }}
             onClick={toggleDrawer}
@@ -182,70 +182,52 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
         <Divider variant="middle" sx={{ mx: "40px" }} />
         <Box sx={{ width: 550 }}>
           <form
-            className="mx-[40px] mt-5 flex flex-col gap-4"
+            className="mx-[40px] mt-5 flex flex-col gap-6"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <FormControl fullWidth sx={{ marginBottom: 2 }}>
+            <FormControl fullWidth sx={{ marginBottom: 2, display: "flex", gap: "10px" }}>
               <label id="prioridade">Prioridade</label>
               <TextField
-                inputProps={{
-                  style: {
-                    padding: 5,
-                  },
-                }}
                 id="prioridade"
                 variant="filled"
+                size="small"
+                hiddenLabel
                 type="number"
                 {...register("prioridade")}
               />
-            </FormControl>
-
-            <FormControl fullWidth sx={{ marginBottom: 2 }}>
+              
               <label id="oque">O que</label>
               <TextField
-                inputProps={{
-                  style: {
-                    padding: 5,
-                  },
-                }}
                 id="oque"
                 variant="filled"
+                size="small"
+                hiddenLabel
                 multiline
                 {...register("oque")}
               />
-            </FormControl>
-            <FormControl fullWidth sx={{ marginBottom: 2 }}>
+
               <label id="porque">Por quê?</label>
               <TextField
-                inputProps={{
-                  style: {
-                    padding: 5,
-                  },
-                }}
                 id="porque"
                 variant="filled"
+                size="small"
+                hiddenLabel
                 multiline
                 {...register("porque")}
               />
-              <label id="comoOnde">Como/Onde</label>
-              <TextField
-                inputProps={{
-                  style: {
-                    padding: 5,
-                  },
-                }}
-                id="comoOnde"
-                variant="filled"
-                multiline
-                {...register("comoOnde")}
-              />
+                <label id="comoOnde">Como/Onde</label>
+                <TextField
+                  id="comoOnde"
+                  variant="filled"
+                  size="small"
+                  hiddenLabel
+                  multiline
+                  {...register("comoOnde")}
+                />
+
               <label id="idUsuarioQuem">Quem</label>
               <Select
-                inputProps={{
-                  style: {
-                    padding: 5,
-                  },
-                }}
+                size="small"
                 id="idUsuarioQuem"
                 variant="filled"
                 {...register("idUsuarioQuem")}
@@ -291,14 +273,10 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
               />
               <label id="valor">Valor</label>
               <TextField
-                inputProps={{
-                  style: {
-                    padding: 5,
-                  },
-                }}
                 id="valor"
                 variant="filled"
-                multiline
+                size="small"
+                hiddenLabel
                 {...register("valor")}
               />
             </FormControl>
@@ -319,16 +297,13 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
             />
             <div className="flex">
               <Button
-                className="bg-mercuryGray px-3 py-2 rounded-lg"
                 type="button"
+                // variant="containedSecondary"
                 onClick={toggleDrawer}
               >
                 Cancelar
               </Button>
-              <Button
-                sx={{ backgroundColor: "primary.main", color: "common.white" }}
-                type="submit"
-              >
+              <Button variant="contained" type="submit">
                 Salvar
               </Button>
             </div>
