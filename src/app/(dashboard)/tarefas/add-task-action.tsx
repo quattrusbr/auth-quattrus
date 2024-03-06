@@ -9,9 +9,8 @@ export async function createTaskAction(task: IFormInputs) {
     ],
   });
 
-  console.log("teste", jsonData);
   const data = await fetch(
-    "http://localhost:45272/Servicos/cadTarefas.asmx/CreateTarefas?idPK=&idReuniao=&abertas=false&concluidas=false&vencidas=false",
+    "http://localhost:45272/Servicos/cadTarefas.asmx/CreateTarefas?idPK=&idReuniao=&abertas=true&concluidas=false&vencidas=true",
     {
       method: "POST",
       headers: {
@@ -23,8 +22,6 @@ export async function createTaskAction(task: IFormInputs) {
   );
 
   revalidateTag("validateTasks");
-  const json = await data.json();
-  console.log("asdasd", json);
 
-  return json;
+  return await data.json();
 }
