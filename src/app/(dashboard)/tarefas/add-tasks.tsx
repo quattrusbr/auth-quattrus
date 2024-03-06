@@ -8,9 +8,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import {} from "@mui/x-date-pickers/DatePicker";
 import {
   Box,
+  Checkbox,
   Divider,
   Drawer,
   FormControl,
+  FormControlLabel,
   IconButton,
   MenuItem,
   Select,
@@ -32,10 +34,12 @@ import { Task } from "@/types/types";
 import { Button } from "@/app/components/button";
 import { DeleteButtonRow } from "./delete-button-row";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { createTaskAction } from "./add-task-action";
+import { useOpenSnackbar } from "@/contexts/snackbar-context";
 
 const names = [{ value: 1430 }];
 
-interface IFormInputs {
+export interface IFormInputs {
   prioridade: string;
   oque: string;
   porque: string;
@@ -44,11 +48,12 @@ interface IFormInputs {
   dt_de: string;
   dt_ate: string;
   valor: number;
-  concluido: number;
+  concluido: boolean;
 }
 
 export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { notification } = useOpenSnackbar();
 
   const { handleSubmit, control, reset, register } = useForm<IFormInputs>({
     defaultValues: {
@@ -60,87 +65,22 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
       dt_de: "",
       dt_ate: "",
       valor: 0,
-      concluido: 0,
+      concluido: false,
     },
   });
-
-  // const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-  //   try {
-  //     data.dt_de = dayjs(data.dt_de).format("DD/MM/YYYY");
-  //     data.dt_ate = dayjs(data.dt_ate).format("DD/MM/YYYY");
-  //     console.log(data);
-  //     console.log( JSON.stringify({ jsonData: [{ data }] }));
-
-  //     const response = await fetch(
-  //       "http://localhost:45272/Servicos/cadTarefas.asmx/CreateTarefas?idPK=&idReuniao=&abertas=true&concluidas=false&vencidas=tru",
-  //       {
-  //         method: "POST",
-  //         mode: "no-cors",
-  //         headers: {
-  //           "ASP.NET_SessionId": "i2fwmyjidh5wbviihis11yti",
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ jsonData: [{ data }] }),
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       const newTask = await response.json();
-  //       reset();
-  //       toggleDrawer();
-  //     } else {
-  //       console.error("Erro ao adicionar tarefa1:", response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error("Erro ao adicionar tarefa:", error);
-  //   }
-  // };
-
-  const jsonData = {
-    jsonData: [
-      {
-        prioridade: 1,
-        oque: "teste do postman",
-        porque: "fsadsas",
-        comoOnde: "dsads",
-        idUsuarioQuem: 1430,
-        dt_de: "05/03/2024", // A data formatada corretamente
-        dt_ate: "29/03/2024", // A data formatada corretamente
-        valor: 32432,
-        concluido: 0,
-        dt_concluido: null,
-      },
-    ],
-  };
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
       data.dt_de = dayjs(data.dt_de).format("DD/MM/YYYY");
       data.dt_ate = dayjs(data.dt_ate).format("DD/MM/YYYY");
-      console.log(data);
-
-      const response = await fetch(
-        "http://localhost:4272/Servicos/cadTarefas.asmx/CreateTarefas?IdPK=&idReuniao=&abertas=true&concluidas=false&vencidas=true",
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "ASP.NET_SessionId": "i2fwmyjidh5wbviihis11yti",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(jsonData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("erro");
-      }
-
-      const result = await response.json();
-      console.log(result);
-      // Faça algo com os dados recebidos
+      await createTaskAction(data);
+      notification({
+        message: "Tarefa criada com sucesso",
+        severity: "success",
+      });
     } catch (e) {
-      console.error("Houve um problema com a operação fetch: ");
+      console.error("Houve um problema com a operação fetch: " + e);
+      notification({ message: "Erro ao criar tarefa", severity: "error" });
     }
   };
 
@@ -340,10 +280,25 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
                 {...register("valor")}
               />
             </FormControl>
-            <div className="flex justify-center">
+            <FormControlLabel
+              control={
+                <Controller
+                  name={"concluido"}
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      checked={field.value}
+                      onChange={(e) => field.onChange(e.target.checked)}
+                    />
+                  )}
+                />
+              }
+              label={"Concluído"}
+            />
+            <div className="flex">
               <Button
                 type="button"
-                variant="containedSecondary"
+                // variant="containedSecondary"
                 onClick={toggleDrawer}
               >
                 Cancelar
