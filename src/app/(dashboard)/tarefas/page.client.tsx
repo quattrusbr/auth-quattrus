@@ -89,6 +89,9 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
     } catch (e) {
       console.error("Houve um problema com a operação fetch: " + e);
       notification({ message: "Erro ao criar tarefa", severity: "error" });
+    } finally {
+      reset();
+      setOpenDrawer(false);
     }
   };
 
