@@ -26,10 +26,10 @@ export function DeleteButtonRow({ row }: { row: Task }) {
     }
   }
   return (
-    <TableCell align="right">
+    <>
       <Button onClick={() => handleDelete(row)} loading={loading}>
-        <DeleteIcon />
+        <DeleteIcon fontSize="small" />
       </Button>
-    </TableCell>
+    </>
   );
 }
