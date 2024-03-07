@@ -1,6 +1,6 @@
 "use server";
 import { revalidateTag } from "next/cache";
-import { IFormInputs } from "./add-tasks";
+import { IFormInputs } from "./page.client";
 
 export async function createTaskAction(task: IFormInputs) {
   const jsonData = JSON.stringify({

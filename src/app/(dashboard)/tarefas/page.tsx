@@ -1,4 +1,4 @@
-import { AddTasks } from "./add-tasks";
+import { AddTasks } from "./page.client";
 
 async function getTasksData() {
   const data = await fetch(

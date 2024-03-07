@@ -26,9 +26,9 @@ export function HeaderText() {
           )}
         </span>
         <h1 className="text-lg ml-2 font-light text-steelGray">
-          {pathName === "/projetos" ? "Projetos" : ""}
-          {pathName === "/" ? "Cronograma" : ""}
-          {pathName === "/tarefas" ? "Tarefas" : ""}
+          {pathName === "/projetos" ? "PROJETOS" : ""}
+          {pathName === "/" ? "CRONOGRAMA" : ""}
+          {pathName === "/tarefas" ? "TAREFAS" : ""}
         </h1>
       </div>
       <div>

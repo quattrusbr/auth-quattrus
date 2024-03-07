@@ -15,6 +15,7 @@ import {
   FormControl,
   FormControlLabel,
   IconButton,
+  Menu,
   MenuItem,
   Select,
   Table,
@@ -29,6 +30,8 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
@@ -38,7 +41,7 @@ import { DeleteButtonRow } from "./delete-button-row";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { createTaskAction } from "./add-task-action";
 import { useOpenSnackbar } from "@/contexts/snackbar-context";
-import { usePagination } from "./../../../hooks/usePagination";
+import { usePagination } from "../../../hooks/usePagination";
 
 const names = [{ value: 1430 }];
 
@@ -105,6 +108,15 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
     return dataDe.toLocaleDateString();
   }
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <div className="bg-ghostGray px-3 py-2 flex justify-between">
@@ -118,20 +130,23 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
           </button>
         </div>
       </div>
-      <TableContainer sx={{overflow: "hidden"}}>
-        <Table sx={{ minWidth: 650, maxHeight: 850, overflow: "auto" }} aria-label="tabela de projetos paginada">
+      <TableContainer sx={{ overflow: "hidden" }}>
+        <Table
+          sx={{ minWidth: 650, maxHeight: 850, overflow: "auto" }}
+          aria-label="tabela de projetos paginada"
+        >
           <TableHead>
             <TableRow>
-              <TableCell align="right">PR</TableCell>
-              <TableCell align="right">O que</TableCell>
-              <TableCell align="right">Por quê?</TableCell>
-              <TableCell align="right">Como/Onde</TableCell>
-              <TableCell align="right">Quem</TableCell>
-              <TableCell align="right">Data inicial</TableCell>
-              <TableCell align="right">Data Final</TableCell>
-              <TableCell align="right">Valor</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="center">PR</TableCell>
+              <TableCell align="center">O que</TableCell>
+              <TableCell align="center">Por quê?</TableCell>
+              <TableCell align="center">Como/Onde</TableCell>
+              <TableCell align="center">Quem</TableCell>
+              <TableCell align="center">Data inicial</TableCell>
+              <TableCell align="center">Data Final</TableCell>
+              <TableCell align="center">Valor</TableCell>
+              <TableCell align="center">Status</TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -142,24 +157,56 @@ export const AddTasks = ({ tasks }: { tasks: Task[] }) => {
                   key={row.idTarefa}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="right">{row.prioridade}</TableCell>
-                  <TableCell align="right">{row.oque}</TableCell>
-                  <TableCell align="right">{row.porque}</TableCell>
-                  <TableCell align="right">{row.comoOnde}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">{row.prioridade}</TableCell>
+                  <TableCell align="center">{row.oque}</TableCell>
+                  <TableCell align="center">{row.porque}</TableCell>
+                  <TableCell align="center">{row.comoOnde}</TableCell>
+                  <TableCell align="center">{row.idUsuarioQuem}</TableCell>
+                  <TableCell align="center">
                     {dataDeFormatada(row.dt_de)}
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">
                     {dataAteFormatada(row.dt_ate)}
                   </TableCell>
-                  <TableCell align="right">{row.valor}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">{row.valor}</TableCell>
+                  <TableCell align="center">
                     <Badge
                       badgeContent={row.status}
                       color={row.status === "A" ? "info" : "error"}
                     />
                   </TableCell>
-                  <DeleteButtonRow row={row} />
+                  <TableCell>
+                    <IconButton
+                      aria-label="more"
+                      id="long-button"
+                      aria-controls={open ? "long-menu" : undefined}
+                      aria-expanded={open ? "true" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      id="grid-menu"
+                      aria-labelledby="grid-button"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      <DeleteButtonRow row={row} />
+                      <Button>
+                        <EditIcon fontSize="small" />
+                      </Button>
+                    </Menu>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
